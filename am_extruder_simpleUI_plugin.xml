@@ -1,0 +1,22 @@
+<library path="src">
+  <class name="Simple Extruder GUI"
+         type="am_extruder_simpleUI.simpleUI.ExtruderWidget"
+         base_class_type="rqt_gui_cpp::Plugin">
+    <description>
+      Plugin: Simple control panel for setting nozzle temperature target and filament speed target of a E3D custom extruder.
+    </description>
+    <qtgui>
+      <!-- Optional grouping
+ 	    <group>
+ 	  	  <label>AHM</label>
+ 	    </group>
+ 	    <group>
+ 	  	  <label>A</label>
+ 	    <group>
+      -->
+      <label>Simple extruder GUI</label>
+      <icon type="theme">system-help</icon>
+      <statustip>User interface to set nozzle temperature and filament speed of a 3D printer plastic extruder.</statustip>
+    </qtgui>
+  </class>
+</library>
