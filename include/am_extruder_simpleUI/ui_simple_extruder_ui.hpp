@@ -30,6 +30,6 @@ private:
 private slots:
 	void tempTargetFieldChanged(void);
 	void speedTargetFieldChanged(void);
-}
+};
 
 #endif /* UI_SIMPLE_EXTRUDER_UI_HPP__ */

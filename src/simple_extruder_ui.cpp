@@ -1,9 +1,8 @@
 #include "am_extruder_simpleUI/simple_extruder_ui.hpp"
 
-#include <pluginlib/class_list_macros.h>
+#include <pluginlib/class_list_macros.hpp>
 
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/Float64MultiArray"
 
 namespace am_extruder_simpleUI
 {
@@ -22,11 +21,11 @@ void SimpleExtruderUIPlugin::initPlugin(qt_gui_cpp::PluginContext& context)
 		"filament_mover_controller/commands", 1);
 	
 	this->jointStateSubscription_ = this->create_subscription<sensor_msgs::msg::JointState>(
-		"joint_states", 1, std::bind(&SimpleExtruderUIPlugin::joint_states_callback, this, _1));
+		"joint_states", 1, std::bind(&SimpleExtruderUIPlugin::joint_states_callback, this, std::placeholders::_1));
 
 	this->widget_ = new SimpleExtruderUIFrame(
-		std::bind(&SimpleExtruderUIPlugin::temp_target_changed_callback, this, _1), 
-		std::bind(&SimpleExtruderUIPlugin::speed_target_changed_callback, this, _1));
+		std::bind(&SimpleExtruderUIPlugin::temp_target_changed_callback, this, std::placeholders::_1), 
+		std::bind(&SimpleExtruderUIPlugin::speed_target_changed_callback, this, std::placeholders::_1));
 
 }
 
@@ -45,7 +44,7 @@ void SimpleExtruderUIPlugin::restoreSettings(const qt_gui_cpp::Settings& plugin_
 
 }
 
-void temp_target_changed_callback(double temp)
+void SimpleExtruderUIPlugin::temp_target_changed_callback(double temp)
 {
 	auto msg = std_msgs::msg::Float64MultiArray();
 	msg.data.emplace_back(temp);
@@ -53,7 +52,7 @@ void temp_target_changed_callback(double temp)
 	return;
 }
 
-void speed_target_changed_callback(double speed)
+void SimpleExtruderUIPlugin::speed_target_changed_callback(double speed)
 {
 	auto msg = std_msgs::msg::Float64MultiArray();
 	msg.data.emplace_back(speed);
@@ -61,9 +60,9 @@ void speed_target_changed_callback(double speed)
 	return;
 }
 
-void joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg)
+void SimpleExtruderUIPlugin::joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg)
 {
-	for (int i = 0; i < msg->name.size(); i++)
+	for (unsigned int i = 0; i < msg->name.size(); i++)
 	{
 		if (msg->name[i].compare("filament_heater"))
 		{
@@ -80,4 +79,4 @@ void joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg)
 
 } /* namespace am_extruder_simpleUI */
 
-PLUGINLIB_DECLARE_CLASS(am_extruder_simpleUI, SimpleExtruderUIPlugin, am_extruder_simpleUI::SimpleExtruderUIPlugin, rqt_gui_cpp::Plugin)
+PLUGINLIB_EXPORT_CLASS(am_extruder_simpleUI::SimpleExtruderUIPlugin, rqt_gui_cpp::Plugin)

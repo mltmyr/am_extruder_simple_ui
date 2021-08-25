@@ -19,10 +19,11 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-#find_package(pluginlib REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(pluginlib REQUIRED)
 find_package(rqt_gui_cpp REQUIRED)
 
-add_executable(am_extruder_simpleUI
+add_library(${PROJECT_NAME}
   src/simple_extruder_ui.cpp
   src/ui_simple_extruder_ui.cpp
 )

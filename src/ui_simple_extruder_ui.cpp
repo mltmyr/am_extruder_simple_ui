@@ -1,12 +1,16 @@
 #include "am_extruder_simpleUI/ui_simple_extruder_ui.hpp"
 
 #include <QGroupBox>
+#include <QGridLayout>
+#include <QVBoxLayout>
 
-constexpr TEMP_MIN =   0.0;
-constexpr TEMP_MAX = 250.0;
+#include <QDoubleValidator>
 
-constexpr SPEED_MIN = -100.0;
-constexpr SPEED_MAX =  100.0;
+constexpr double TEMP_MIN =   0.0;
+constexpr double TEMP_MAX = 250.0;
+
+constexpr double SPEED_MIN = -100.0;
+constexpr double SPEED_MAX =  100.0;
 
 SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempTargChange, std::function<void(double)> onSpeedTargChange)
 {
@@ -59,7 +63,7 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 	speedGBox->setLayout(speedGridLayout);
 
 	// Combine boxes into widget
-	QVboxLayout* mainVLayout = new QVBoxLayout;
+	QVBoxLayout* mainVLayout = new QVBoxLayout;
 	mainVLayout->addWidget(tempGBox);
 	mainVLayout->addWidget(speedGBox);
 

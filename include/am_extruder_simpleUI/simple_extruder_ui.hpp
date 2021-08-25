@@ -2,6 +2,10 @@
 #define SIMPLE_EXTRUDER_UI_HPP__
 
 #include <rqt_gui_cpp/plugin.h>
+//#include "std_msgs/msg/byte_multi_array.hpp"
+#include "std_msgs/msg/float64_multi_array.hpp"
+#include "sensor_msgs/msg/joint_state.hpp"
+
 #include "ui_simple_extruder_ui.hpp"
 
 #include <QWidget>
@@ -21,6 +25,9 @@ public:
 
 
 private:
+	void temp_target_changed_callback(double temp);
+	void speed_target_changed_callback(double speed);
+
 	void joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg);
 
 	SimpleExtruderUIFrame* widget_;
