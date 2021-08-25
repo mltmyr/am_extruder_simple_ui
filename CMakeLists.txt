@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(am_extruder_simpleUI)
+project(am_extruder_simple_ui)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -28,18 +28,19 @@ add_library(${PROJECT_NAME}
   src/ui_simple_extruder_ui.cpp
 )
 
-target_include_directories(am_extruder_simpleUI PUBLIC
+target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-ament_target_dependencies(am_extruder_simpleUI
+ament_target_dependencies(${PROJECT_NAME}
   rclcpp
   std_msgs
-  #pluginlib
+  sensor_msgs
+  pluginlib
   rqt_gui_cpp
 )
 
-#pluginlib_export_plugin_description_file(am_extruder_simpleUI am_extruder_simpleUI_plugin.xml)
+#pluginlib_export_plugin_description_file(${PROJECT_NAME} am_extruder_simple_ui_plugin.xml)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

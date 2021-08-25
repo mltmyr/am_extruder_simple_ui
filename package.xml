@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>am_extruder_simpleUI</name>
+  <name>am_extruder_simple_ui</name>
   <version>0.0.0</version>
   <description>Simple control panel for setting nozzle temperature target and filament speed target.</description>
   <maintainer email="andreas.h.moltumyr@ntnu.no">moltumyr</maintainer>
@@ -11,8 +11,8 @@
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
-  <!--<depend>pluginlib</depend> -->
-  <depend>rqt_gui</depend>
+  <depend>sensor_msgs</depend>
+  <depend>pluginlib</depend>
   <depend>rqt_gui_cpp</depend>
 
   <test_depend>ament_lint_auto</test_depend>
@@ -20,5 +20,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
+    <rqt_gui plugin="${prefix}/am_extruder_simple_ui_plugin.xml"/>
   </export>
 </package>

@@ -1,10 +1,10 @@
-#include "am_extruder_simpleUI/simple_extruder_ui.hpp"
+#include "am_extruder_simple_ui/simple_extruder_ui.hpp"
 
 #include <pluginlib/class_list_macros.hpp>
 
-#include "rclcpp/rclcpp.hpp"
+#include <rclcpp/rclcpp.hpp>
 
-namespace am_extruder_simpleUI
+namespace am_extruder_simple_ui
 {
 
 SimpleExtruderUIPlugin::SimpleExtruderUIPlugin()
@@ -79,4 +79,4 @@ void SimpleExtruderUIPlugin::joint_states_callback(const sensor_msgs::msg::Joint
 
 } /* namespace am_extruder_simpleUI */
 
-PLUGINLIB_EXPORT_CLASS(am_extruder_simpleUI::SimpleExtruderUIPlugin, rqt_gui_cpp::Plugin)
+PLUGINLIB_EXPORT_CLASS(am_extruder_simple_ui::SimpleExtruderUIPlugin, rqt_gui_cpp::Plugin)

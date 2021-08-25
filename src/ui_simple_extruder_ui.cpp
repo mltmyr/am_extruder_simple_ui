@@ -1,9 +1,8 @@
-#include "am_extruder_simpleUI/ui_simple_extruder_ui.hpp"
+#include "am_extruder_simple_ui/ui_simple_extruder_ui.hpp"
 
 #include <QGroupBox>
 #include <QGridLayout>
 #include <QVBoxLayout>
-
 #include <QDoubleValidator>
 
 constexpr double TEMP_MIN =   0.0;
