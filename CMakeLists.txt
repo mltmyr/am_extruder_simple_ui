@@ -40,7 +40,9 @@ ament_target_dependencies(${PROJECT_NAME}
   rqt_gui_cpp
 )
 
-#pluginlib_export_plugin_description_file(${PROJECT_NAME} am_extruder_simple_ui_plugin.xml)
+
+
+pluginlib_export_plugin_description_file(${PROJECT_NAME} am_extruder_simple_ui_plugin.xml)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

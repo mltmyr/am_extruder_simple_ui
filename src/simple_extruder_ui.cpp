@@ -27,6 +27,7 @@ void SimpleExtruderUIPlugin::initPlugin(qt_gui_cpp::PluginContext& context)
 		std::bind(&SimpleExtruderUIPlugin::temp_target_changed_callback, this, std::placeholders::_1), 
 		std::bind(&SimpleExtruderUIPlugin::speed_target_changed_callback, this, std::placeholders::_1));
 
+	context.addWidget(this->widget_);
 }
 
 void SimpleExtruderUIPlugin::shutdownPlugin()
@@ -36,12 +37,16 @@ void SimpleExtruderUIPlugin::shutdownPlugin()
 
 void SimpleExtruderUIPlugin::saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::Settings& instance_settings) const
 {
-
+	(void)plugin_settings;
+	(void)instance_settings;
+	return;
 }
 
 void SimpleExtruderUIPlugin::restoreSettings(const qt_gui_cpp::Settings& plugin_settings, const qt_gui_cpp::Settings& instance_settings)
 {
-
+	(void)plugin_settings;
+	(void)instance_settings;
+	return;
 }
 
 void SimpleExtruderUIPlugin::temp_target_changed_callback(double temp)
