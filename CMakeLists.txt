@@ -18,35 +18,85 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(pluginlib REQUIRED)
+find_package(qt_gui_cpp REQUIRED)
 find_package(rqt_gui_cpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 
-add_library(${PROJECT_NAME}
+# define target
+set(am_extruder_simple_ui_SRCS
   src/simple_extruder_ui.cpp
   src/ui_simple_extruder_ui.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-
-ament_target_dependencies(${PROJECT_NAME}
-  rclcpp
-  std_msgs
-  sensor_msgs
-  pluginlib
-  rqt_gui_cpp
+set(am_extruder_simple_ui_HDRS
+  include/am_extruder_simple_ui/simple_extruder_ui.hpp
+  include/am_extruder_simple_ui/ui_simple_extruder_ui.hpp
 )
 
+set(am_extruder_simple_ui_INCLUDE_DIRECTORIES
+  include
+  ${rclcpp_INCLUDE_DIRS}
+  ${qt_gui_cpp_INCLUDE_DIRS}
+  ${rqt_gui_cpp_INCLUDE_DIRS}
+  ${sensor_msgs_INCLUDE_DIRS}
+  ${std_msgs_INCLUDE_DIRS}
+  ${Qt5Widgets_INCLUDE_DIRS}
+)
 
+qt5_wrap_cpp(am_extruder_simple_ui_MOCS ${am_extruder_simple_ui_HDRS})
 
-pluginlib_export_plugin_description_file(${PROJECT_NAME} am_extruder_simple_ui_plugin.xml)
+include_directories(
+  ${am_extruder_simple_ui_INCLUDE_DIRECTORIES}
+)
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
+add_library(${PROJECT_NAME} SHARED
+  ${am_extruder_simple_ui_SRCS}
+  ${am_extruder_simple_ui_MOCS}
+)
+
+target_link_libraries(${PROJECT_NAME}
+  ${rclcpp_LIBRARIES}
+  ${qt_gui_cpp_LIBRARIES}
+  ${rqt_gui_cpp_LIBRARIES}
+  ${sensor_msgs_LIBRARIES}
+  ${std_msgs_LIBRARIES}
+  Qt5::Widgets
+)
+
+# install target
+install(TARGETS ${PROJECT_NAME}
+  EXPORT ${PROJCT_NAME}
+  ARCHIVE DESTINATION lib/${PROJECT_NAME}
+  LIBRARY DESTINATION lib/${PROJECT_NAME}
+  RUNTIME DESTINATION bin/${PROJECT_NAME}
+  INCLUDES DESTINATION include
+)
+
+install(PROGRAMS scripts/am_extruder_simple_ui
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(FILES am_extruder_simple_ui_plugin.xml
+  DESTINATION share/${PROJECT_NAME}
+)
+
+pluginlib_export_plugin_description_file(rqt_gui "am_extruder_simple_ui_plugin.xml")
+
+#ament_target_dependencies(${PROJECT_NAME}
+#  rclcpp
+#  std_msgs
+#  sensor_msgs
+#  pluginlib
+#  qt_gui
+#  rqt_gui_cpp
+#)
+
+#install(DIRECTORY include/${PROJECT_NAME} DESTINATION include/${PROJECT_NAME})
+
+ament_export_include_directories(include)
+ament_export_libraries(${PROJECT_NAME})
 
 ament_package()

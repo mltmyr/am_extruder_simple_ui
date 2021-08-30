@@ -82,6 +82,6 @@ void SimpleExtruderUIPlugin::joint_states_callback(const sensor_msgs::msg::Joint
 }
 
 
-} /* namespace am_extruder_simpleUI */
+} /* namespace am_extruder_simple_ui */
 
 PLUGINLIB_EXPORT_CLASS(am_extruder_simple_ui::SimpleExtruderUIPlugin, rqt_gui_cpp::Plugin)

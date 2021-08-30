@@ -28,6 +28,10 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 	this->tempCurrentLabel   = new QLabel("0.0");
 	QLabel* tempCurrentUnit  = new QLabel("Celsius");
 
+	this->tempTargetField->setMaximumWidth(64);
+	this->tempTargetField->setText("0.0");
+	tempGBox->setStyleSheet("QGroupBox {qproperty-alignment: AlignLeft}");
+
 	QGridLayout* tempGridLayout = new QGridLayout;
 	tempGridLayout->addWidget(tempTargetLabel, 	      0, 0, 1, 1);
 	tempGridLayout->addWidget(this->tempTargetField,  0, 1, 1, 1);
@@ -37,6 +41,8 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 	tempGridLayout->addWidget(this->tempCurrentLabel, 1, 1, 1, 1);
 	tempGridLayout->addWidget(tempCurrentUnit,        1, 2, 1, 1);
 
+	tempGridLayout->setColumnStretch(3,1);
+
 	tempGBox->setLayout(tempGridLayout);
 
 	// Filament speed box
@@ -44,11 +50,15 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 
 	QLabel* speedTargetLabel  = new QLabel("Target:");
 	this->speedTargetField    = new QLineEdit();
-	QLabel* speedTargetUnit   = new QLabel("Celsius");
+	QLabel* speedTargetUnit   = new QLabel("mm/s");
 
 	QLabel* speedCurrentLabel = new QLabel("Current:");
 	this->speedCurrentLabel   = new QLabel("0.0");
 	QLabel* speedCurrentUnit  = new QLabel("mm/s");
+
+	this->speedTargetField->setMaximumWidth(64);
+	this->speedTargetField->setText("0.0");
+	speedGBox->setStyleSheet("QGroupBox {qproperty-alignment: AlignLeft}");
 
 	QGridLayout* speedGridLayout = new QGridLayout;
 	speedGridLayout->addWidget(speedTargetLabel, 	    0, 0, 1, 1);
@@ -59,14 +69,20 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 	speedGridLayout->addWidget(this->speedCurrentLabel, 1, 1, 1, 1);
 	speedGridLayout->addWidget(speedCurrentUnit,        1, 2, 1, 1);
 
+	speedGridLayout->setColumnStretch(3,1);
+
 	speedGBox->setLayout(speedGridLayout);
 
 	// Combine boxes into widget
 	QVBoxLayout* mainVLayout = new QVBoxLayout;
 	mainVLayout->addWidget(tempGBox);
 	mainVLayout->addWidget(speedGBox);
+	mainVLayout->addStretch();
 
-	this->setLayout(mainVLayout);
+	QWidget* centralWidget = new QWidget;
+	centralWidget->setLayout(mainVLayout);
+
+	this->setCentralWidget(centralWidget);
 
 	// LineEdit masks and validators
 	QDoubleValidator* tempTargetValidator  = new QDoubleValidator( TEMP_MIN,  TEMP_MAX, 1);
