@@ -14,7 +14,15 @@ SimpleExtruderUIPlugin::SimpleExtruderUIPlugin()
 
 void SimpleExtruderUIPlugin::initPlugin(qt_gui_cpp::PluginContext& context)
 {
-	this->node_ = rclcpp::Node::make_shared("simple_extruder_ui");
+	std::string node_name = std::string("simple_extruder_ui");
+	QString window_title_postfix = "";
+	if (context.serialNumber() > 1)
+	{
+		node_name.append( std::string("_")+std::to_string(context.serialNumber()) );
+		window_title_postfix.append( " (" + QString::number(context.serialNumber()) + ")" );
+	}
+	this->node_ = rclcpp::Node::make_shared(node_name);
+	
 	this->spin_executor_.add_node(this->node_);
 
 	this->targetTempPublisher_  = this->node_->create_publisher<std_msgs::msg::Float64MultiArray>(
@@ -29,17 +37,27 @@ void SimpleExtruderUIPlugin::initPlugin(qt_gui_cpp::PluginContext& context)
 		std::bind(&SimpleExtruderUIPlugin::temp_target_changed_callback, this, std::placeholders::_1), 
 		std::bind(&SimpleExtruderUIPlugin::speed_target_changed_callback, this, std::placeholders::_1));
 
+	this->widget_->setWindowTitle(this->widget_->windowTitle() + window_title_postfix);
 	context.addWidget(this->widget_);
 
 	this->spinner_ = new std::thread([this]() { this->spin_executor_.spin(); });
 	this->spinner_->detach();
 
-	/* RCLCPP_NOTE(this->node_->get_logger(), "simple_extruder_ui plugin initialized"); */
+	 RCLCPP_INFO(this->node_->get_logger(), "%s plugin initialized.", this->node_->get_name());
+
+	 return;
 }
 
 void SimpleExtruderUIPlugin::shutdownPlugin()
 {
-
+	RCLCPP_INFO(this->node_->get_logger(), "Shuting down %s", this->node_->get_name());
+	this->spin_executor_.cancel();
+	//this->spin_executor_.remove_node(this->node_);
+	delete this->spinner_;
+	//this->jointStateSubscription_.reset();
+	//this->targetTempPublisher_.reset();
+	//this->targetSpeedPublisher_.reset();
+	//this->node_.reset();
 }
 
 void SimpleExtruderUIPlugin::saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::Settings& instance_settings) const
@@ -62,7 +80,7 @@ void SimpleExtruderUIPlugin::temp_target_changed_callback(double temp)
 	msg.data.emplace_back(temp);
 	this->targetTempPublisher_->publish(msg);
 
-	/* RCLCPP_NOTE(this->node_->get_logger(), "temperature target changed to %f celsius.", temp); */
+	/* RCLCPP_INFO(this->node_->get_logger(), "temperature target changed to %f celsius.", temp); */
 	return;
 }
 
@@ -72,7 +90,7 @@ void SimpleExtruderUIPlugin::speed_target_changed_callback(double speed)
 	msg.data.emplace_back(speed);
 	this->targetSpeedPublisher_->publish(msg);
 
-	/* RCLCPP_NOTE(this->node_->get_logger(), "filament speed target changed to %f mm/s.", speed); */
+	/* RCLCPP_INFO(this->node_->get_logger(), "filament speed target changed to %f mm/s.", speed); */
 	return;
 }
 
@@ -91,7 +109,7 @@ void SimpleExtruderUIPlugin::joint_states_callback(const sensor_msgs::msg::Joint
 		}
 	}
 
-	/* RCLCPP_NOTE(this->node_->get_logger(), "received JointState message: [%s, %s], [%f, %f], [%f, %f]",
+	/* RCLCPP_INFO(this->node_->get_logger(), "received JointState message: [%s, %s], [%f, %f], [%f, %f]",
 		msg->name[1].c_str(), msg->name[0].c_str(),
 		msg->position[0],     msg->position[1],
 		msg->velocity[0],     msg->velocity[1]

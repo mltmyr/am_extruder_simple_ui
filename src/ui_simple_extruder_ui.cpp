@@ -98,6 +98,11 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 	QObject::connect(this->speedTargetField, SIGNAL(editingFinished()), this, SLOT(speedTargetFieldChanged(void)) );
 }
 
+SimpleExtruderUIFrame::~SimpleExtruderUIFrame()
+{
+	
+}
+
 void SimpleExtruderUIFrame::setCurrentTemp(const double temp)
 {
 	QString tempStr = QString::number(temp, 'f', 1);

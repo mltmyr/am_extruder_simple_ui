@@ -14,6 +14,8 @@ class SimpleExtruderUIFrame : public QMainWindow
 	Q_OBJECT
 public:
 	SimpleExtruderUIFrame(std::function<void(double)> onTempTargChange, std::function<void(double)> onSpeedTargChange);
+	~SimpleExtruderUIFrame();
+
 	void setCurrentTemp(const double temp);
 	void setCurrentSpeed(const double speed);
 
