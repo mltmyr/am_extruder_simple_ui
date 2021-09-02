@@ -53,11 +53,11 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 	QLabel* speedTargetUnit   = new QLabel("mm/s");
 
 	QLabel* speedCurrentLabel = new QLabel("Current:");
-	this->speedCurrentLabel   = new QLabel("0.0");
+	this->speedCurrentLabel   = new QLabel("0.00");
 	QLabel* speedCurrentUnit  = new QLabel("mm/s");
 
 	this->speedTargetField->setMaximumWidth(64);
-	this->speedTargetField->setText("0.0");
+	this->speedTargetField->setText("0.00");
 	speedGBox->setStyleSheet("QGroupBox {qproperty-alignment: AlignLeft}");
 
 	QGridLayout* speedGridLayout = new QGridLayout;
