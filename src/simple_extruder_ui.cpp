@@ -96,14 +96,14 @@ void SimpleExtruderUIPlugin::speed_target_changed_callback(double speed)
 
 void SimpleExtruderUIPlugin::joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg) const
 {
-	
-	for (unsigned int i = 0; i < msg->name.size(); i++)
+	unsigned int n = msg->name.size();
+	for (unsigned int i = 0; i < n; i++)
 	{
-		if (msg->name[i].compare("filament_heater"))
+		if (msg->name[(n-1)-i].compare("filament_heater"))
 		{
 			this->widget_->setCurrentTemp(msg->position[i]);
 		}
-		else if (msg->name[i].compare("filament_mover"))
+		else if (msg->name[(n-1)-i].compare("filament_mover"))
 		{
 			this->widget_->setCurrentSpeed(msg->velocity[i]);
 		}
