@@ -94,8 +94,8 @@ SimpleExtruderUIFrame::SimpleExtruderUIFrame(std::function<void(double)> onTempT
 	this->speedTargetField->setValidator(speedTargetValidator);
 
 	// Internal connections
-	QObject::connect(this->tempTargetField,  SIGNAL(editingFinished()), this, SLOT(tempTargetFieldChanged(void)) );
-	QObject::connect(this->speedTargetField, SIGNAL(editingFinished()), this, SLOT(speedTargetFieldChanged(void)) );
+	QObject::connect(this->tempTargetField,  SIGNAL(returnPressed(void)), this, SLOT(tempTargetFieldChanged(void)) );
+	QObject::connect(this->speedTargetField, SIGNAL(returnPressed(void)), this, SLOT(speedTargetFieldChanged(void)) );
 }
 
 SimpleExtruderUIFrame::~SimpleExtruderUIFrame()
